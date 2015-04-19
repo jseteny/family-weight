@@ -51,7 +51,7 @@ body {
   padding: 0;
 }
 
-.player {
+.familyMember {
   border-bottom: 1px solid #f1f1f1;
   cursor: pointer;
   padding: .5em 0;
@@ -61,7 +61,7 @@ body {
   border-left: 4px solid white;
 }
 
-.player:before {
+.familyMember:before {
   color: #999;
   content: counter(ol-counter);
   counter-increment: ol-counter;
@@ -73,20 +73,20 @@ body {
   width: 3em;
 }
 
-.player .avatar {
+.familyMember .avatar {
   display: inline-block;
   margin-right: 1em;
   vertical-align: middle;
 }
 
-.player .name {
+.familyMember .name {
   display: inline-block;
   font-size: 1.25em;
   font-weight: 300;
   vertical-align: middle;
 }
 
-.player .score {
+.familyMember .weight {
   color: #333;
   display: block;
   float: right;
@@ -96,12 +96,12 @@ body {
   padding-right: 1.25em;
 }
 
-.player.selected {
+.familyMember.selected {
   background-color: #fefff4;
   border-left: #eb5f3a 4px solid;
 }
 
-.player:hover {
+.familyMember:hover {
   background-color: #fefff4;
 }
 
@@ -200,11 +200,11 @@ body {
     margin: 2em 0 4em 0;
   }
 
-  .player:hover {
+  .familyMember:hover {
     background-color: inherit;
   }
 
-  .player.selected:hover {
+  .familyMember.selected:hover {
     background-color: #fefff4;
   }
 }
