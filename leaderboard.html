@@ -1,39 +1,42 @@
 <head>
-  <title>Leaderboard</title>
-  <meta name="viewport" content="width=device-width, user-scalable=no">
-  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
+    <title>Leaderboard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-  <div class="outer">
+<div class="outer">
     <div class="logo"></div>
-    <h1 class="title">Leaderboard</h1>
-    <div class="subtitle">Select a scientist to give them points</div>
+    <h1 class="title">Family weight</h1>
+
+    <div class="subtitle">Select a family member to store his/her just measured weight</div>
     {{> leaderboard}}
-  </div>
+</div>
 </body>
 
 <template name="leaderboard">
-  <ol class="leaderboard">
-    {{#each players}}
-      {{> player}}
-    {{/each}}
-  </ol>
+    <ol class="leaderboard">
+        {{#each players}}
+            {{> player}}
+        {{/each}}
+    </ol>
 
-  {{#if selectedName}}
-    <div class="details">
-      <div class="name">{{selectedName}}</div>
-      <button class="inc">Add 5 points</button>
-    </div>
-  {{else}}
-    <div class="message">Click a player to select</div>
-  {{/if}}
+    {{#if selectedName}}
+        <div class="details">
+            <button class="inc plus1">+1</button>
+            <button class="inc plus5">+5</button>
+            <button class="dec minus1">-1</button>
+            <button class="dec minus5">-5</button>
+        </div>
+    {{else}}
+        <div class="message">Click a family member to select</div>
+    {{/if}}
 </template>
 
 <template name="player">
-  <li class="player {{selected}}">
-    <span class="name">{{name}}</span>
-    <span class="score">{{score}}</span>
-  </li>
+    <li class="player {{selected}}">
+        <span class="name">{{name}}</span>
+        <span class="score">{{score}}</span>
+    </li>
 </template>
 

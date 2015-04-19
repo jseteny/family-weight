@@ -118,6 +118,32 @@ body {
   vertical-align: middle;
 }
 
+.details .dec {
+  border-radius: 3em;
+  border: #eb5f3a 1px solid;
+  background: transparent;
+  color: #eb5f3a;
+  cursor: pointer;
+  float: left;
+  font-family: 'Source Sans Pro' ,'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 10px 30px;
+  transition: all 200ms ease-in;
+}
+
+.dec:hover {
+  background: #eb5f3a;
+  color: #fff;
+}
+
+.dec:active {
+  box-shadow: rgba(0,0,0,.3) 0 1px 3px 0 inset;
+}
+
+
 .details .inc {
   border-radius: 3em;
   border: #eb5f3a 1px solid;
@@ -166,7 +192,7 @@ body {
     padding-left: 0;
   }
 
-  .details .inc {
+  .details .incdec {
     padding: 10px 20px;
   }
 

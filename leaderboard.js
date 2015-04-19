@@ -15,8 +15,17 @@ if (Meteor.isClient) {
   });
 
   Template.leaderboard.events({
-    'click .inc': function () {
+    'click .minus1': function () {
+      Players.update(Session.get("selectedPlayer"), {$inc: {score: -1}});
+    },
+    'click .minus5': function () {
+      Players.update(Session.get("selectedPlayer"), {$inc: {score: -5}});
+    },
+    'click .plus5': function () {
       Players.update(Session.get("selectedPlayer"), {$inc: {score: 5}});
+    },
+    'click .plus1': function () {
+      Players.update(Session.get("selectedPlayer"), {$inc: {score: 1}});
     }
   });
 
@@ -37,8 +46,8 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     if (Players.find().count() === 0) {
-      var names = ["Ada Lovelace", "Grace Hopper", "Marie Curie",
-                   "Carl Friedrich Gauss", "Nikola Tesla", "Claude Shannon"];
+      var names = ["Jancsi", "Erika", "Matyi",
+                   "Panni", "Zsuzsi"];
       _.each(names, function (name) {
         Players.insert({
           name: name,
