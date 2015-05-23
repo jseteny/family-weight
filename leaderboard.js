@@ -3,10 +3,25 @@
 
 FamilyMembers = new Mongo.Collection("familyMembers");
 
+function updateOrCreateWeight(id, value) {
+  var old = FamilyMembers.find(id).fetch()[0];
+  var newTime = new Date().getTime();
+  var seconds=1000;
+  var diff = newTime - old.time;
+  if(diff<20*seconds) {
+    console.log('update');
+    FamilyMembers.update(id, {$set: {weight: value}});
+    FamilyMembers.update(id, {$set: {time: newTime}});
+  }else{
+    console.log('insert');
+    FamilyMembers.insert({name: old.name, weight: value, time: newTime})
+  }
+}
+
 if (Meteor.isClient) {
   Template.leaderboard.helpers({
     familyMembers: function () {
-      return FamilyMembers.find({}, { sort: { weight: -1, name: 1 } });
+      return FamilyMembers.find({});
     },
     selectedName: function () {
       var familyMember = FamilyMembers.findOne(Session.get("selectedFamilyMember"));
@@ -15,18 +30,15 @@ if (Meteor.isClient) {
   });
 
   Template.leaderboard.events({
-    'click .minus1': function () {
-      FamilyMembers.update(Session.get("selectedFamilyMember"), {$inc: {weight: -1}});
-    },
-    'click .minus5': function () {
-      FamilyMembers.update(Session.get("selectedFamilyMember"), {$inc: {weight: -5}});
-    },
-    'click .plus5': function () {
-      FamilyMembers.update(Session.get("selectedFamilyMember"), {$inc: {weight: 5}});
-    },
-    'click .plus1': function () {
-      FamilyMembers.update(Session.get("selectedFamilyMember"), {$inc: {weight: 1}});
-    }
+
+    // update the text of the item on keypress but throttle the event to ensure
+    // we don't flood the server with updates (handles the event at most once
+    // every 300ms)
+    'keyup input[type=text]': _.throttle(function(event) {
+      var id = this._id;
+      var value = event.target.value;
+        updateOrCreateWeight(id, value);
+    }, 300)
   });
 
   Template.familyMember.helpers({
@@ -46,12 +58,12 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     if (FamilyMembers.find().count() === 0) {
-      var names = ["Jancsi", "Erika", "Matyi",
-                   "Panni", "Zsuzsi"];
+      var names = ["Jancsi"];
       _.each(names, function (name) {
         FamilyMembers.insert({
           name: name,
-          weight: Math.floor(Random.fraction() * 10) * 5
+          weight: Math.floor(Random.fraction() * 10) * 5,
+          time:0
         });
       });
     }
