@@ -3,19 +3,27 @@
 
 FamilyMembers = new Mongo.Collection("familyMembers");
 
+if (!Array.prototype.last){
+    Array.prototype.last = function(){
+        return this[this.length - 1];
+    };
+}
+
 function updateOrCreateWeight(id, value) {
-    var old = FamilyMembers.find(id).fetch()[0];
+    var weights = FamilyMembers.find(id).fetch()[0].weights;
+    var old = weights.last();
     var newTime = new Date().getTime();
     var seconds = 1000;
     var diff = newTime - old.time;
     if (diff < 20 * seconds) {
         console.log('update');
-        FamilyMembers.update(id, {$set: {weight: value}});
-        FamilyMembers.update(id, {$set: {time: newTime}});
+        weights.last().weight = value;
+        weights.last().time = newTime;
     } else {
         console.log('insert');
-        FamilyMembers.insert({name: old.name, weight: value, time: newTime})
+        weights.push({weight: value, time: newTime});
     }
+    FamilyMembers.update(id, {$set: {weights: weights}});
 }
 
 if (Meteor.isClient) {
@@ -62,8 +70,7 @@ if (Meteor.isServer) {
             _.each(names, function (name) {
                 FamilyMembers.insert({
                     name: name,
-                    weight: Math.floor(Random.fraction() * 10) * 5,
-                    time: 0
+                    weights: [{weight: Math.floor(Random.fraction() * 10) * 5, time: 0}]
                 });
             });
         }
